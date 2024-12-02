@@ -25,15 +25,28 @@ server.post('/usuarios', (req, res) => {
 });
 
 server.post('/vendedores', (req, res) => {
-    const db = router.db;
-    const vendedores = db.get('vendedores');
-    const { v4: uuidv4 } = require('uuid');
+    console.log('Recebendo payload para /vendedores:', req.body);
     
-    const novoVendedor = { id: uuidv4(), ...req.body };
-    vendedores.push(novoVendedor).write();
+    try {
+        const db = router.db; // Acessa o banco de dados
+        const vendedores = db.get('vendedores');
+        const { v4: uuidv4 } = require('uuid');
+        
+        // Criar o novo vendedor com ID único
+        const novoVendedor = { id: uuidv4(), ...req.body };
+        console.log('Vendedor a ser salvo:', novoVendedor);
 
-    res.status(201).json(novoVendedor);
+        // Adicionar o vendedor ao banco de dados
+        vendedores.push(novoVendedor).write();
+        
+        console.log('Vendedor salvo com sucesso!');
+        res.status(201).json(novoVendedor);
+    } catch (error) {
+        console.error('Erro ao salvar vendedor:', error);
+        res.status(500).json({ error: 'Erro interno ao salvar vendedor.' });
+    }
 });
+
 
 server.post('/comentarios', (req, res) => {
     const db = router.db;

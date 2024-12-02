@@ -41,9 +41,10 @@ server.post('/vendedores', (req, res) => {
         
         console.log('Vendedor salvo com sucesso!');
         res.status(201).json(novoVendedor);
-    } catch (error) {
-        console.error('Erro ao salvar vendedor:', error);
-        res.status(500).json({ error: 'Erro interno ao salvar vendedor.' });
+    }  catch (error) {
+        console.error('Erro interno ao salvar vendedor:', error.message); // Log detalhado do erro
+        console.error('Stack trace:', error.stack); // Loga a pilha do erro para mais detalhes
+        res.status(500).json({ error: 'Erro interno ao salvar vendedor.', details: error.message });
     }
 });
 

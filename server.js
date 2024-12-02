@@ -27,8 +27,9 @@ server.post('/usuarios', (req, res) => {
 server.post('/vendedores', (req, res) => {
     const db = router.db;
     const vendedores = db.get('vendedores');
-
-    const novoVendedor = { id: Date.now().toString(), ...req.body };
+    const { v4: uuidv4 } = require('uuid');
+    
+    const novoVendedor = { id: uuidv4(), ...req.body };
     vendedores.push(novoVendedor).write();
 
     res.status(201).json(novoVendedor);

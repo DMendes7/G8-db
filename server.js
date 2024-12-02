@@ -1,6 +1,25 @@
 const jsonServer = require('json-server');
+
+const path = require('path');
+const fs = require('fs');
+
 const server = jsonServer.create();
-const router = jsonServer.router('db.json');
+
+// Caminhos para o arquivo original e o temporário
+const originalDbPath = path.join(__dirname, 'db.json');
+const tmpDbPath = path.join('/tmp', 'db.json');
+
+// Copia o arquivo `db.json` para o diretório `/tmp` durante o início do servidor
+if (!fs.existsSync(tmpDbPath)) {
+    console.log('Copiando db.json para /tmp...');
+    fs.copyFileSync(originalDbPath, tmpDbPath);
+    console.log('Arquivo db.json copiado para /tmp com sucesso!');
+} else {
+    console.log('Arquivo db.json já existe em /tmp.');
+}
+
+// Configura o JSON Server para usar o arquivo temporário
+const router = jsonServer.router(tmpDbPath);
 const middlewares = jsonServer.defaults();
 
 server.use(middlewares);

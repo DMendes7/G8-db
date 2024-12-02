@@ -13,6 +13,21 @@
         {
             "src": "/(.*)",
             "dest": "server.js"
+        },
+        {
+            "src": "/usuarios",
+            "methods": ["GET", "POST", "PUT", "DELETE"],
+            "dest": "/server.js"
+        },
+        {
+            "src": "/vendedores",
+            "methods": ["GET", "POST", "PUT", "DELETE"],
+            "dest": "/server.js"
+        },
+        {
+            "src": "/comentarios",
+            "methods": ["GET", "POST", "PUT", "DELETE"],
+            "dest": "/server.js"
         }
     ]
 }
